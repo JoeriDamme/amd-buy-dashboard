@@ -1,0 +1,11 @@
+{
+  "name": "amd-buy-dashboard",
+  "version": "1.0.0",
+  "description": "Tracking changes in HTML of the AMD.com buy website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Joeri Damme",
+  "license": "ISC"
+}
