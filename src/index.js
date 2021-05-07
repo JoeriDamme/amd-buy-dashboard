@@ -26,6 +26,9 @@ const dashboard = new Dashboard(refreshTime);
         const messageObj = result ? { message: 'Change!', important: true } : { message: 'No change', important: false }
 
         dashboard.addLogLine(new Date(), messageObj)
+
+        // remove any previous errors from dashboard
+        dashboard.clearError()
       }
 
       dashboard.setTimerPercentage(secondsLeft)
@@ -34,7 +37,6 @@ const dashboard = new Dashboard(refreshTime);
       secondsLeft--
 
       // render dashboard
-      dashboard.clearError()
       dashboard.render()
     } catch (error) {
       handleErrors(error)
@@ -48,6 +50,7 @@ function handleErrors(error) {
     if (error.message.includes('ECONNREFUSED')) {
       // show error on dashboard
       dashboard.setError(new Date(), `Can not connect to configured website "${url}". Try ${countTry} of ${maximumRetries}.`)
+      
 
       // update try count and check if another try should be done
       countTry++
@@ -57,6 +60,8 @@ function handleErrors(error) {
       }
     }
   }
+
+  dashboard.render()
 }
 
 process.on('uncaughtException', (err) => {
