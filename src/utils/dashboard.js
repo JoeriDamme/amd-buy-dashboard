@@ -33,16 +33,24 @@ export class Dashboard {
 
     this.screen.key(['escape', 'q', 'C-c'], () => {
       return process.exit(0)
-    });
+    })
 
     this.screen.on('resize', () => {
-      this.log('attach')
+      this.log.emit('attach')
       this.gauge.emit('attach')
-    });
+      this.boxDiff.emit('attach')
+      this.boxError.emit('attach')
+      this.boxInfo.emit('attach')
+    })
 
-    this.boxDiff = this.grid.set(0, 3, 11, 9, blessed.box, {
-      content: 'x',
+    this.boxDiff = this.grid.set(0, 3, 10, 9, blessed.box, {
+      content: '',
       label: 'Last diff'
+    })
+
+    this.boxError = this.grid.set(10, 3, 1, 9, blessed.box, {
+      content: 'none',
+      label: 'Application Errors'
     })
 
     this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
@@ -62,11 +70,15 @@ export class Dashboard {
 
   /**
    * Add log line to logger.
-   * @param {String} time 
-   * @param {String} message 
+   * @param {String} date 
+   * @param {Object} messageObj
+   *  messageObj.important {Boolean}: will mark the message
+   *  messageObj.message {String}: message to display
    */
-  addLogLine(time, message) {
-    this.log.log(`${chalk.bgWhite.black(`${time}:`)} ${chalk.grey(message)}`)
+  addLogLine(date, messageObj) {
+    const timeStr = this.formateTime(date)
+    let txtColor = messageObj.important ? 'bgRed' : 'grey';
+    this.log.log(`${chalk.bgWhite.black(`${timeStr}:`)} ${chalk[txtColor](messageObj.message)}`)
   }
 
   /**
@@ -74,5 +86,39 @@ export class Dashboard {
    */
   render() {
     this.screen.render()
+  }
+
+  /**
+   * Set error message.
+   * @param {Date} date 
+   * @param {String} message 
+   */
+  setError(date, message) {
+    const timeStr = this.formateTime(date)
+    this.boxError.setContent(`${chalk.bgWhite.black(`${timeStr}:`)} ${chalk.red(message)}`)
+  }
+
+  /**
+   * Clear error box
+   */
+  clearError() {
+    this.boxError.setContent(``)
+  }
+
+  /**
+   * Format time accroding to config
+   * @todo make config item, currently it's using toLocaleString()
+   * @param {Data} date 
+   * @returns 
+   */
+  formateTime(date) {
+    return date.toLocaleString()
+  } 
+
+  /**
+   * Destroy the screen, clear the terminal.
+   */
+  clear() {
+    this.screen.destroy()
   }
 }

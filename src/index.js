@@ -19,11 +19,13 @@ const dashboard = new Dashboard(refreshTime);
       // if seconds left is 0, run the scraper
       if (!secondsLeft) {
         secondsLeft = refreshTime
-        const result = await run();
 
-        const message = result ? 'Change!' : 'No Change'
+        // run scraper
+        const result = await run()
 
-        dashboard.addLogLine(new Date().toLocaleString(), message)
+        const messageObj = result ? { message: 'Change!', important: true } : { message: 'No change', important: false }
+
+        dashboard.addLogLine(new Date(), messageObj)
       }
 
       dashboard.setTimerPercentage(secondsLeft)
@@ -32,9 +34,9 @@ const dashboard = new Dashboard(refreshTime);
       secondsLeft--
 
       // render dashboard
+      dashboard.clearError()
       dashboard.render()
     } catch (error) {
-      dashboard.destroy()
       handleErrors(error)
     }
   }, 1000);
@@ -44,13 +46,13 @@ function handleErrors(error) {
   // check if error is Error class, so we can check message
   if (error instanceof Error) {
     if (error.message.includes('ECONNREFUSED')) {
-      // show error in console
-      console.error(chalk.red(`Can not connect to configured website "${url}". Try ${countTry} of ${maximumRetries}.`))
+      // show error on dashboard
+      dashboard.setError(new Date(), `Can not connect to configured website "${url}". Try ${countTry} of ${maximumRetries}.`)
 
       // update try count and check if another try should be done
       countTry++
       if (countTry > maximumRetries) {
-        console.log(chalk.bgRed('Too many retries. Aborting.'))
+        console.error(chalk.bgRed('Too many retries. Aborting.'))
         process.exit(1)
       }
     }
@@ -58,8 +60,8 @@ function handleErrors(error) {
 }
 
 process.on('uncaughtException', (err) => {
-  // remove dashboard
-  dashboard.destroy()
+  // clear terminal
+  dashboard.clear()
 
   // print error
   console.error(err)
