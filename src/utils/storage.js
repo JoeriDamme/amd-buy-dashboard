@@ -105,4 +105,16 @@ export class Storage {
       throw new Error(`Can not get length of data, because it is not an Array. `);
     }
   }
+
+  /**
+   * Makes of an URL a 'flatten' string, so it can be used as 'unique' storage key name
+   * @param {String} websiteUrl e.g. https://www.amd.com/en/direct-buy/nl
+   * @returns {String} wwwamdcomendirectbuynl
+   */
+  static getStorageKeyFromUrl(websiteUrl) {
+    const url = new URL(websiteUrl)
+    const summary = `${url.hostname}${url.pathname.split('/').join('')}`
+    const replace = summary.replace(/-|\./g, '')
+    return replace
+  }
 }

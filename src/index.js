@@ -24,7 +24,7 @@ const dashboard = new Dashboard(refreshTime);
         const result = await run()
 
         // set diff if available
-        if (result.diff) {
+        if (result && result.diff) {
           dashboard.setDiff(new Date(), result.diff)
         }
 
