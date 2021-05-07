@@ -64,7 +64,7 @@ Creating Pull Requests.
 See e-mail address in package.json
 
 ## Lol your code suck
-see [How can I help you](#How-can-I-help-you?)
+See [How can I help you](#How-can-I-help-you?)
 
 ## Current backlog items
 - Clean up the code, because it can be done better. I have to wait for more data anyway
