@@ -33,7 +33,7 @@ export class Dashboard {
 
     this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
       label: 'Config',
-      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}`),
+      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}, Notification: ${config.get('notification')}`),
     })
 
     this.gauge = this.grid.set(0, 0, 2, 3, contrib.gauge, {

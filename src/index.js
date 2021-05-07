@@ -7,6 +7,7 @@ import { Dashboard } from './utils/dashboard.js'
 const refreshTime = config.get('refreshTime');
 const maximumRetries = config.get('maximumRetries');
 const url = config.get('url');
+const notification = config.get('notification');
 
 let countTry = 1;
 let secondsLeft = refreshTime;
@@ -26,6 +27,11 @@ const dashboard = new Dashboard(refreshTime);
         // set diff if available
         if (result && result.diff) {
           dashboard.setDiff(new Date(), result.diff)
+
+          if (notification) {
+            // nice trick to trigger bell in unix terminals
+            process.stderr.write('\x07')
+          }
         }
 
         // set log message
