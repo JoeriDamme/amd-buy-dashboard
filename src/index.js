@@ -9,29 +9,33 @@ const maximumRetries = config.get('maximumRetries');
 const url = config.get('url');
 
 let countTry = 1;
+let secondsLeft = refreshTime;
+const dashboard = new Dashboard(refreshTime);
 
+// run anonymous function when starting the application
 (async() => {
-  let secondsLeft = refreshTime;
-  const dashboard = new Dashboard(refreshTime);
-
   setInterval(async() => {
     try {
       // if seconds left is 0, run the scraper
       if (!secondsLeft) {
         secondsLeft = refreshTime
-        await run()
+        const result = await run();
+
+        const message = result ? 'Change!' : 'No Change'
+
+        dashboard.addLogLine(new Date().toLocaleString(), message)
       }
 
       dashboard.setTimerPercentage(secondsLeft)
-      // console.log(`Seconds left for next try: ${secondsLeft}`)
 
       // substract 1 second
       secondsLeft--
 
       // render dashboard
-      dashboard.render();
+      dashboard.render()
     } catch (error) {
-      handleErrors(error);
+      dashboard.destroy()
+      handleErrors(error)
     }
   }, 1000);
 })()
@@ -54,6 +58,12 @@ function handleErrors(error) {
 }
 
 process.on('uncaughtException', (err) => {
+  // remove dashboard
+  dashboard.destroy()
+
+  // print error
   console.error(err)
+
+  // exit process with error
   process.exit(1)
 })

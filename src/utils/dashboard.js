@@ -1,5 +1,7 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
+import chalk from 'chalk'
+import config from 'config'
 
 export class Dashboard {
   /**
@@ -19,9 +21,14 @@ export class Dashboard {
       screen: this.screen
     })
 
-    this.gauge = this.grid.set(0, 0, 2, 12, contrib.gauge, {
+    this.gauge = this.grid.set(0, 0, 2, 3, contrib.gauge, {
       label: 'Timer',
       percent: [100]
+    })
+
+    this.log = this.grid.set(2, 0, 10, 3, contrib.log, {
+      fg: 'green',
+      label: 'Log',
     })
 
     this.screen.key(['escape', 'q', 'C-c'], () => {
@@ -29,8 +36,18 @@ export class Dashboard {
     });
 
     this.screen.on('resize', () => {
+      this.log('attach')
       this.gauge.emit('attach')
     });
+
+    this.boxDiff = this.grid.set(0, 3, 11, 9, blessed.box, {
+      content: 'x',
+      label: 'Last diff'
+    })
+
+    this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
+      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}`),
+    })
   }
 
   /**
@@ -41,7 +58,15 @@ export class Dashboard {
   setTimerPercentage(leftInSeconds) {
     const percentage = Math.ceil(leftInSeconds / this.refreshTime * 100)
     this.gauge.setData([percentage])
-    this.gauge.set
+  }
+
+  /**
+   * Add log line to logger.
+   * @param {String} time 
+   * @param {String} message 
+   */
+  addLogLine(time, message) {
+    this.log.log(`${chalk.bgWhite.black(`${time}:`)} ${chalk.grey(message)}`)
   }
 
   /**

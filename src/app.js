@@ -30,7 +30,10 @@ export async function run() {
     
     const diff = compare(previousValue, currentValue);
 
-    console.log(diff);
+    // return change
+    return diff;
   }
 
+  // no change
+  return false;
 }
