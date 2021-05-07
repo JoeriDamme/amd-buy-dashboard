@@ -5,9 +5,14 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node --experimental-specifier-resolution=node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "Joeri Damme",
   "license": "ISC",
   "dependencies": {
@@ -18,5 +23,11 @@
     "cli-diff": "^1.0.0",
     "config": "^3.3.6",
     "node-localstorage": "^2.1.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.25.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "pre-commit": "^1.2.2"
   }
 }
