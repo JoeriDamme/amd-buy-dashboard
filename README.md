@@ -17,7 +17,7 @@ I think this is still pretty unreliable, so I want to find a method to really de
 ## How will you detect a drop?
 That's the question :) This application will scrape the 'Buy Direct from AMD' website, detect changes in HTML and stores them. That's it at the moment. Hopefully with enough data, it's possible to recognize some patterns so it will be easier to predict a drop.
 
-## hmm...so why should I use this?
+## Hmm...so why should I use this?
 It can already be helpfull at the moment if you have some HTML knowledge. As explained before, the dashboard will show the changes in the HTML. We know that most drops happens on Thursdays. And most of the time the order of the products will change.
 So if those divs are changing, login at Paypal, start the 'reveal add to card button' script and pray to the gods :D
 
@@ -62,3 +62,13 @@ Creating Pull Requests.
 
 ## How can I contact you?
 See e-mail address in package.json
+
+## Lol your code suck
+see [How can I help you](#How-can-I-help-you?)
+
+## Current backlog items
+- Clean up the code, because it can be done better. I have to wait for more data anyway
+- Think about a centralized place to store the 'scrapes'
+- Filter option, because most changes are pretty irrelevant
+- Typescript the whole project
+- Support for IP rotation? Not sure if that is possible
