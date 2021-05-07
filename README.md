@@ -1,6 +1,8 @@
 # AMD Buy Dashboard
 Scrape the 'Buy Direct from AMD' website, detect changes in HTML and report those in a dashboard.
 
+![Screenshot](./assets/docs/dump01.png)
+
 ## Introduction
 We all know it's really difficult to obtain a GPU during these times. Almost once every week AMD 'drops' new GPUs on their website (for normal prices), but it's almost impossbile to detect when.
 There are some clues prio a drop:
