@@ -51,3 +51,6 @@ The `config` contains a `default.json` with the default settings. I recommend to
 
 ## Local Storage?
 For now. It works the same as the local storage in a browser. Maybe if we have enough people I will create a public API where everyone can push the HTML and MAYBE IF IT POSSIBLE use machine learning or smart pigeons to detect patterns. But I will do it with my own brains at the moment.
+
+## WOW THIS IS AMAZING, PLEASE HAVE MY MONEY
+Keep it for yourself lol. GPUs are expensive.
