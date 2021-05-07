@@ -1,5 +1,5 @@
 {
-  "url": "https://www.amd.com/en/direct-buy/nl",
+  "url": "https://www.amd.com/en/direct-buy",
   "refreshTime": 30,
   "maximumRetries": 5,
   "storageQuota": 1000,
