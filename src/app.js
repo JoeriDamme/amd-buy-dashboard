@@ -21,17 +21,14 @@ export async function run() {
 
   // compare values
   if (currentValue !== previousValue) {
-    // oooh! something different
-    console.log('DIFFERENCE!');
-    console.log({
-      currentLength: currentValue.length,
-      previousLength: previousValue.length,
-    });
-    
+    // oooh! something different in the HTML!    
     const diff = compare(previousValue, currentValue);
-
-    // return change
-    return diff;
+    // return diff
+    return {
+      diff,
+      currentLength: currentValue.length,
+      previousLength: previousValue.length
+    }
   }
 
   // no change

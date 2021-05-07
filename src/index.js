@@ -23,8 +23,13 @@ const dashboard = new Dashboard(refreshTime);
         // run scraper
         const result = await run()
 
-        const messageObj = result ? { message: 'Change!', important: true } : { message: 'No change', important: false }
+        // set diff if available
+        if (result.diff) {
+          dashboard.setDiff(new Date(), result.diff)
+        }
 
+        // set log message
+        const messageObj = result ? { message: 'Change!', important: true } : { message: 'No change', important: false }
         dashboard.addLogLine(new Date(), messageObj)
 
         // remove any previous errors from dashboard
@@ -49,8 +54,13 @@ function handleErrors(error) {
   if (error instanceof Error) {
     if (error.message.includes('ECONNREFUSED')) {
       // show error on dashboard
-      dashboard.setError(new Date(), `Can not connect to configured website "${url}". Try ${countTry} of ${maximumRetries}.`)
-      
+      const date = new Date()
+      dashboard.setError(date, `Can not connect to configured website "${url}". Try ${countTry} of ${maximumRetries}.`)
+      dashboard.addLogLine(date, {
+        error: true,
+        important: false,
+        message: 'Error'
+      })
 
       // update try count and check if another try should be done
       countTry++
@@ -58,6 +68,15 @@ function handleErrors(error) {
         console.error(chalk.bgRed('Too many retries. Aborting.'))
         process.exit(1)
       }
+    } else {
+      // other errors of the error class
+      const date = new Date()
+      dashboard.setError(date, error.message)
+      dashboard.addLogLine(date, {
+        error: true,
+        important: false,
+        message: 'Error'
+      })
     }
   }
 

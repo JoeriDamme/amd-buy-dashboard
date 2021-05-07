@@ -21,6 +21,21 @@ export class Dashboard {
       screen: this.screen
     })
 
+    this.boxDiff = this.grid.set(0, 3, 10, 9, blessed.box, {
+      content: '',
+      label: 'Last diff'
+    })
+
+    this.boxError = this.grid.set(10, 3, 1, 9, blessed.box, {
+      content: '',
+      label: 'Errors'
+    })
+
+    this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
+      label: 'Config',
+      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}`),
+    })
+
     this.gauge = this.grid.set(0, 0, 2, 3, contrib.gauge, {
       label: 'Timer',
       percent: [100]
@@ -42,20 +57,6 @@ export class Dashboard {
       this.boxError.emit('attach')
       this.boxInfo.emit('attach')
     })
-
-    this.boxDiff = this.grid.set(0, 3, 10, 9, blessed.box, {
-      content: '',
-      label: 'Last diff'
-    })
-
-    this.boxError = this.grid.set(10, 3, 1, 9, blessed.box, {
-      content: 'none',
-      label: 'Application Errors'
-    })
-
-    this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
-      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}`),
-    })
   }
 
   /**
@@ -72,13 +73,23 @@ export class Dashboard {
    * Add log line to logger.
    * @param {String} date 
    * @param {Object} messageObj
+   *  messageObj.error {Boolean}: will mark the message as an error
    *  messageObj.important {Boolean}: will mark the message
    *  messageObj.message {String}: message to display
    */
   addLogLine(date, messageObj) {
     const timeStr = this.formateTime(date)
-    let txtColor = messageObj.important ? 'bgRed' : 'grey';
-    this.log.log(`${chalk.bgWhite.black(`${timeStr}:`)} ${chalk[txtColor](messageObj.message)}`)
+    const { important, error, message } = messageObj
+    let str;
+    if (error) {
+      str = chalk.bgRed.white(message)
+    } else if (important) {
+      str = chalk.bgGreen.white(message)
+    } else {
+      str = chalk.grey(message)
+    }
+
+    this.log.log(`${chalk.bgWhite.black(`${timeStr}:`)} ${str}`)
   }
 
   /**
@@ -102,7 +113,7 @@ export class Dashboard {
    * Clear error box
    */
   clearError() {
-    this.boxError.setContent(``)
+    this.boxError.setContent('')
   }
 
   /**
@@ -113,7 +124,16 @@ export class Dashboard {
    */
   formateTime(date) {
     return date.toLocaleString()
-  } 
+  }
+
+  /**
+   * Dispay diff in box
+   * @param {Data} date 
+   * @param {String} diff 
+   */
+  setDiff(date, diff) {
+    this.boxDiff.setContent(diff)
+  }
 
   /**
    * Destroy the screen, clear the terminal.
