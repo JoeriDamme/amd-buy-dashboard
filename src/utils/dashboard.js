@@ -31,9 +31,8 @@ export class Dashboard {
       label: 'Errors'
     })
 
-    this.boxInfo = this.grid.set(11, 3, 1, 9, blessed.box, {
+    this.boxConfig = this.grid.set(11, 3, 1, 9, blessed.box, {
       label: 'Config',
-      content: chalk.blue(`Refresh Time: ${config.get('refreshTime')} seconds, Website: ${config.get('url')}, Notification: ${config.get('notification')}`),
     })
 
     this.gauge = this.grid.set(0, 0, 2, 3, contrib.gauge, {
@@ -55,7 +54,7 @@ export class Dashboard {
       this.gauge.emit('attach')
       this.boxDiff.emit('attach')
       this.boxError.emit('attach')
-      this.boxInfo.emit('attach')
+      this.boxConfig.emit('attach')
     })
   }
 
@@ -133,6 +132,16 @@ export class Dashboard {
    */
   setDiff(date, diff) {
     this.boxDiff.setContent(diff)
+  }
+
+  /**
+   * Set config items in box
+   * @param {Object} config 
+   */
+  setConfig(config) {
+    const arr = [];
+    Object.entries(config).forEach(([prop, value]) => arr.push(`${prop}: ${value}`))
+    this.boxConfig.setContent(chalk.blue(arr.join(', ')))
   }
 
   /**

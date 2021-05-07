@@ -12,6 +12,11 @@ const notification = config.get('notification');
 let countTry = 1;
 let secondsLeft = refreshTime;
 const dashboard = new Dashboard(refreshTime);
+dashboard.setConfig({
+  refreshTime,
+  url,
+  notification,
+});
 
 // run anonymous function when starting the application
 (async() => {
