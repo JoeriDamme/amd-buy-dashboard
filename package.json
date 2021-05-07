@@ -13,7 +13,7 @@
   "pre-commit": [
     "lint"
   ],
-  "author": "Joeri Damme",
+  "author": "Joeri Damme (joerid@gmail.com)",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",

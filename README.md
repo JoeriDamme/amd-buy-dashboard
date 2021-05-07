@@ -54,3 +54,9 @@ For now. It works the same as the local storage in a browser. Maybe if we have e
 
 ## WOW THIS IS AMAZING, PLEASE HAVE MY MONEY
 Keep it for yourself lol. GPUs are expensive.
+
+## How can I help you?
+Creating Pull Requests.
+
+## How can I contact you?
+See e-mail address in package.json
