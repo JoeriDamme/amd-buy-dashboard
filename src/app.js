@@ -3,6 +3,7 @@ import getHTML from './utils/request';
 import Storage from './utils/storage';
 import compare from './utils/compare';
 import getProducts from './utils/amd-parse';
+import getCatErrors from './utils/cat-checker';
 
 const websiteUrl = config.get('url');
 
@@ -21,7 +22,9 @@ export default async function run() {
   storage.append(storageKey, currentValue);
 
   const products = getProducts(currentValue);
-  console.log(products);
+
+  const catErrors = await getCatErrors(products.map((product) => product.id));
+  console.log(catErrors);
 
   if (!previousValue) {
     // no previous data, so continue to next interval

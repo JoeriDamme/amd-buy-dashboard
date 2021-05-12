@@ -3,5 +3,6 @@
   "refreshTime": 30,
   "maximumRetries": 5,
   "storageQuota": 1000,
-  "notification": true
+  "notification": true,
+  "catUrl": "http://store.digitalriver.com/store?Action=buy&Env=BASE&Locale=EN&SiteID=defaults"
 }

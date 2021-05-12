@@ -25,6 +25,12 @@ function updateErrorDashboard(error) {
 }
 
 function handleErrors(error) {
+  if (!dashboard) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return;
+  }
+
   let errorObject;
 
   // check if error is Error class, so we can check message
