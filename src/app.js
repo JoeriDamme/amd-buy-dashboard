@@ -2,7 +2,7 @@ import config from 'config';
 import getHTML from './utils/request';
 import Storage from './utils/storage';
 import compare from './utils/compare';
-import getProductIds from './utils/amd-parse';
+import getProducts from './utils/amd-parse';
 
 const websiteUrl = config.get('url');
 
@@ -20,7 +20,8 @@ export default async function run() {
   // append new value to storage
   storage.append(storageKey, currentValue);
 
-  getProductIds(currentValue);
+  const products = getProducts(currentValue);
+  console.log(products);
 
   if (!previousValue) {
     // no previous data, so continue to next interval
