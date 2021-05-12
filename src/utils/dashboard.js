@@ -136,7 +136,7 @@ export default class Dashboard {
    * Set config items in box
    * @param {Object} config
    */
-  setConfig(config) {
+  setConfigBox(config) {
     const arr = [];
     Object.entries(config).forEach(([prop, value]) => arr.push(`${prop}: ${value}`));
     this.boxConfig.setContent(chalk.blue(arr.join(', ')));

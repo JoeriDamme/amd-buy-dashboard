@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node --experimental-specifier-resolution=node ./src/index.js",
+    "dev:hideDashboard": "node --experimental-specifier-resolution=node ./src/index.js --hideDashboard",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -22,6 +23,8 @@
     "chalk": "^4.1.1",
     "cli-diff": "^1.0.0",
     "config": "^3.3.6",
+    "minimist": "^1.2.5",
+    "node-html-parser": "^3.2.0",
     "node-localstorage": "^2.1.6"
   },
   "devDependencies": {
