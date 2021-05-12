@@ -24,7 +24,17 @@ export default async function run() {
   const products = getProducts(currentValue);
 
   const catErrors = await getCatErrors(products.map((product) => product.id));
-  console.log(catErrors);
+
+  // Join the cat code and product name
+  const catProducts = catErrors.map((cat) => {
+    const product = products.find((p) => p.id === cat.id);
+
+    return {
+      id: product.id,
+      name: product.name,
+      catCode: cat.catCode,
+    };
+  });
 
   if (!previousValue) {
     // no previous data, so continue to next interval
@@ -42,6 +52,7 @@ export default async function run() {
       diff,
       currentLength: currentValue.length,
       previousLength: previousValue.length,
+      catProducts,
     };
   }
 
